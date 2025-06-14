@@ -47,6 +47,92 @@ July 21-2015: Kubernetes v1.0 gets released. Along with the release, Google part
 - Github runs on Kubernetes
 - Oracle joined the Cloud Native Computing Foundation
 
+## Kubernetes Provides
 
+- Service discovery and load balancing
+- Storage orchestration
+- - SAN, NAV, EBS volumes, CEPH storage
+- Automated rollouts and rollbacks
+- Automatic bin packing
+- Self-healing
+- Secret and configuration management
 
-## 
+## Kubernetes Architecture
+
+![image](https://github.com/user-attachments/assets/a0cf3c89-a652-48d7-b1be-310dbe17f925)
+![image](https://github.com/user-attachments/assets/58c13b95-e46f-46dc-9263-36107432d88c)
+
+### Master: Kube API Server
+- Handles all the requests and enables communication across stack services.
+- Component on the master that exposes the Kubernetes API.
+- It is the frontend for Kubernetes control plane.
+- Admins connects to it usin Kubectl CLI.
+- Web Dashboard can be integrated using this API.
+- and many more integration
+
+### Master: ETCD Server
+- Stores all the information for Kubernetes cluster
+- Consist and highly-availabe key and value data store as Kubernetes backing store for all cluster data.
+- Kube API store retrives info from it.
+- Should be backed up regularly.
+- Stores current state of everything in the cluster.
+
+### Master: Kube Sheduler
+- watches newly created pods that has no nodes assigned and select a node for them to run on.
+- Factors taken into account for sheduling a decisions include:
+  - individual and collective resource requirements,
+  - hardware/software/policy constraints,
+  - affinity and anti-affinity specifications,
+  - data locality,
+  - inter-workload interference and deadliner
+
+### Master: Controller Manager
+
+Logically, each controller is a separate process,
+
+To reduce the complexity, they are all compiled into a single
+
+These controllers include:
+- Node Controller: Responsible to noticing and responding when nodes goes down.
+- Replication Controller: Responsible for maintaining the correct amount of pods for every replication controller object in the system.
+- Endpoint Controller: Populates the endpoints object (join services and pods)
+- Service Account and Token Controller: Create default account and tokens for new namespace
+
+### Node Components
+
+Kubelet
+- An agent that runs on each node in the cluster. It makes sure that containers are running in a pod.
+
+Kube Proxy
+- network proxy that runs on each node in your cluster
+- Network Rule
+  - rules allow network communication to your pods outside or inside of your cluster
+
+Container Runtime: Kubernetes supports several container runtime
+- Docker
+- containerd
+- cri-o, rktlet
+- Kubernetes CRI (Container Runtime Interface)
+
+### PODS
+
+![image](https://github.com/user-attachments/assets/1a492305-50a8-4ab1-88b5-b237ab6cda97)
+![image](https://github.com/user-attachments/assets/4c7ad2c4-1018-4de7-bc98-86ab389f6883)
+
+### Addons
+
+DNS, Web UI, Container Resource Monitoring, Cluster Level Logging.
+
+## Kubernetes Setup Tools
+
+Hard Way: Manual Setup
+
+Testing: Minikube
+- One Node Kubernetes cluster on your computer
+
+Kubeadm:
+- Multi node Kubernetes Cluster
+- Can be created on any plattforms VM's, EC2, physical machines etc
+
+Kops:
+- Multi node Kubernetes Cluster on AWS
