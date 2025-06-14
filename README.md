@@ -1,5 +1,7 @@
 # Kubernetes
 
+📖 For full documentation, see the [`/docs`](./docs) folder.
+
 If Docker Engine fails, then all the containers will be down and users would not be able to access them
 
 This is where Kubernetes comes into play to create multiple docker engines called Docker nodes in kubernetes wich will give high availability
