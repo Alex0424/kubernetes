@@ -1,0 +1,8 @@
+site_name: Kubernetes
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - History: history.md
+  - Introduction: introduction.md
