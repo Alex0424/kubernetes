@@ -18,3 +18,5 @@ nav:
   - Home: index.md
   - History: history.md
   - Introduction: introduction.md
+  - Setup Kubectl: setup_kubectl.md
+  - Minikube: minikube.md
