@@ -1,3 +1,13 @@
+# 📄 Documentation Website
+
+This project is live at:
+
+🔗 [alex0424.github.io/kubernetes](https://alex0424.github.io/kubernetes/)
+
+Built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
+
+Maintained by Alexander Lindholm
+
 # 🚀 How to Use MkDocs
 
 A quick guide to building and deploying documentation with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/).
