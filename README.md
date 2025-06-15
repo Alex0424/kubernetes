@@ -31,5 +31,6 @@ mkdocs serve
 ## 🌍 3. Deploy to GitHub Pages
 
 ```bash
-mkdocs gh-deploy
+git push
+# Github Action will automatically run a pipeline on git push that will deploy the docs with command: mkdocs gh-deploy
 ```
