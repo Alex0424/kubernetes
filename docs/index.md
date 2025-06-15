@@ -1,11 +1,15 @@
 # Kubernetes Documentation
 
-🧑‍🏫 *By Alexander Lindholm — Beta version*
+=> 🧑‍🏫 *By Alexander Lindholm — Beta version*
 
 <br>
 
-👋 Hello and welcome!
+
+
+```
+Hello and welcome! # ①
+```
 
 👷🏻 You're currently reading the **beta version** of this documentation, which is still under development.
 
-📚 Use the navigation bar on the left to explore the available content.
+📚 Use the navigation bar above to explore the available content.

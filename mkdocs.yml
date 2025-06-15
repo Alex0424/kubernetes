@@ -1,6 +1,18 @@
-site_name: Kubernetes
+site_name: MyProject Docs
 theme:
   name: material
+  palette:
+    scheme: slate
+    primary: red
+    accent: red
+  font:
+    text: Inter
+    code: Fira Code
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - search.suggest
+    - content.code.annotate # I still dont know what this code line does.
 
 nav:
   - Home: index.md
