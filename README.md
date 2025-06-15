@@ -8,7 +8,7 @@ Built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
 
 Maintained by Alexander Lindholm
 
-# 🚀 How to Use MkDocs
+# 🚀 Test Locally and Deploy
 
 A quick guide to building and deploying documentation with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/).
 
