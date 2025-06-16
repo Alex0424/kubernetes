@@ -19,4 +19,5 @@ nav:
   - History: history.md
   - Introduction: introduction.md
   - Setup Kubectl: setup_kubectl.md
-  - Minikube: minikube.md
+  - Setup Minikube: setup_minikube.md
+  - Setup Kops: setup_kops.md
