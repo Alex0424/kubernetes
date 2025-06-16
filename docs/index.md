@@ -1,15 +1,17 @@
 # Kubernetes Documentation
 
-=> 🧑‍🏫 *By Alexander Lindholm — Beta version*
+## 📚 Acknowledgment
+
+- This guide is inspired by the teachings of **Imran Teli**, my technology instructor.
+
+- 🧑‍🏫 **By Alexander Lindholm — Beta Version**
 
 <br>
 
 
+## 👋 Hello and welcome!
 
-```
-Hello and welcome! # ①
-```
 
-👷🏻 You're currently reading the **beta version** of this documentation, which is still under development.
+👷🏻 You are currently viewing the **beta version** of this documentation. It is actively being developed and improved.
 
-📚 Use the navigation bar above to explore the available content.
+📖 Use the navigation bar above to explore the available content and sections.
