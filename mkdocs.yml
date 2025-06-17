@@ -21,3 +21,5 @@ nav:
   - Setup Kubectl: setup_kubectl.md
   - Setup Minikube: setup_minikube.md
   - Setup Kops: setup_kops.md
+  - Objects: objects.md
+  - Kube Config: kube_config.md

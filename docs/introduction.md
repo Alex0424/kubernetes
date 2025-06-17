@@ -61,7 +61,7 @@ In Kubernetes, these nodes form a **single pool of compute resources** that is *
 ## 📊 Kubernetes Architecture
 
 ![image](https://github.com/user-attachments/assets/a0cf3c89-a652-48d7-b1be-310dbe17f925)
-![alt text](image.png)
+![alt text](img/architecture.png)
 
 [link to model](https://excalidraw.com/#json=AKcO9sSmoO8eI4anTIIAq,ZcPm7b1_DE7u62HJ0Qa31Q)
 
@@ -155,7 +155,7 @@ These controllers include:
 
 *(Reference: Imran Teli)*
 
-![image](https://github.com/user-attachments/assets/1a492305-50a8-4ab1-88b5-b237ab6cda97)
+![alt text](img/pods.png)
 ![image](https://github.com/user-attachments/assets/4c7ad2c4-1018-4de7-bc98-86ab389f6883)
 
 ---
