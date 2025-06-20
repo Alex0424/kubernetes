@@ -23,3 +23,4 @@ nav:
   - Setup Kops: setup_kops.md
   - Objects: objects.md
   - Kube Config: kube_config.md
+  - Namespace: namespaces.md
