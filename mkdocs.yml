@@ -24,3 +24,4 @@ nav:
   - Objects: objects.md
   - Kube Config: kube_config.md
   - Namespace: namespaces.md
+  - Logging: different_logging.md
