@@ -1,0 +1,1292 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../setup_minikube/">
+      
+      
+        <link rel="next" href="../objects/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Setup Kops - Kubernetes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#setup-kubernetes-with-kops" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Kubernetes" class="md-header__button md-logo" aria-label="Kubernetes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kubernetes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setup Kops
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../setup_kubectl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Setup Kubectl
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../setup_minikube/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Setup Minikube
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Setup Kops
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Objects
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../kube_config/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Kube Config
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../namespaces/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Namespace
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../different_logging/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Logging
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Kubernetes" class="md-nav__button md-logo" aria-label="Kubernetes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Kubernetes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    History
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup_kubectl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Kubectl
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup_minikube/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Minikube
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Setup Kops
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Kops
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launch-ec2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ☁️ Launch EC2 Instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-iam-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      👤 Create IAM User
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👤 Create IAM User">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-access-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Create Access key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-to-ec2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Connect to EC2 Instance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔑 Connect to EC2 Instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-ssh-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Generate SSH keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kops" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Install Kops
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧰 Install kubectl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bucket-with-amazon-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🪣 Create a bucket with Amazon S3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-dns-zone-with-amazon-route-53" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Create the DNS Zone with Amazon Route 53
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Create the DNS Zone with Amazon Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copy-ns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧾 Copy NS Records
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-dns-records-in-namecheap" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Update DNS Records in Namecheap
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-your-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Create Your Kubernetes Cluster
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Create Your Kubernetes Cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Validate the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-commandskube" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Useful CommandsKube
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗑️ Delete the Cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshoot" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Troubleshoot
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Objects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kube_config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kube Config
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Namespace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../different_logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launch-ec2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ☁️ Launch EC2 Instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-iam-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      👤 Create IAM User
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👤 Create IAM User">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-access-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Create Access key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-to-ec2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Connect to EC2 Instance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔑 Connect to EC2 Instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-ssh-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Generate SSH keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kops" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Install Kops
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧰 Install kubectl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bucket-with-amazon-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🪣 Create a bucket with Amazon S3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-dns-zone-with-amazon-route-53" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Create the DNS Zone with Amazon Route 53
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Create the DNS Zone with Amazon Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copy-ns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧾 Copy NS Records
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-dns-records-in-namecheap" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Update DNS Records in Namecheap
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-your-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Create Your Kubernetes Cluster
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Create Your Kubernetes Cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Validate the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-commandskube" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Useful CommandsKube
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗑️ Delete the Cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshoot" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Troubleshoot
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="setup-kubernetes-with-kops">Setup Kubernetes with Kops</h1>
+<h2 id="prerequisites">📋 Prerequisites</h2>
+<ul>
+<li>🐧 Linux-based OS</li>
+<li><a href="../setup_kubectl/">kubectl</a> installed</li>
+<li>Registered domain (e.g., from Namecheap)</li>
+<li>A subdomain configured via AWS Route 53 with 4 NS (Name Server) records</li>
+</ul>
+<h2 id="launch-ec2-instance">☁️ Launch EC2 Instance</h2>
+<ul>
+<li>Name: <code>kops</code></li>
+<li>AMI (Amazon Machine Image): <code>Ubuntu Server 24.04 LTS</code> (but its recomended to use 22.04 as its stable)</li>
+<li>Instance type: <code>t2.micro</code></li>
+<li>Key pair: <code>Name: 'kopskey'</code>, <code>Key pair type: 'RSA'</code>, <code>Private key file format: '.pem'</code></li>
+<li>Security group: <code>Name: 'kops-sg'</code>, <code>Inbound rules: SSH from My IP}</code></li>
+</ul>
+<h2 id="create-iam-user">👤 Create IAM User</h2>
+<ul>
+<li><strong>Name</strong>: <code>kopsadmin</code></li>
+<li><strong>Permissions</strong>: <code>Attach policies directly -&gt; AdministratorAccess</code></li>
+</ul>
+<h3 id="create-access-key">🔐 Create Access key</h3>
+<ul>
+<li>Choose <strong>Command Line Interface (CLI)</strong></li>
+<li>Copy the <strong>Access Key ID</strong> and <strong>Secret Access Key</strong></li>
+</ul>
+<h2 id="connect-to-ec2-instance">🔑 Connect to EC2 Instance</h2>
+<pre><code class="language-bash">chmod 600 kopskey.pem
+ssh -i kopskey.pem ubuntu@@&lt;your_ec2_public_ip&gt;
+</code></pre>
+<p>Update and install AWS CLI:</p>
+<pre><code class="language-bash">sudo apt update
+sudo snap install aws-cli --classic
+</code></pre>
+<p>Configure AWS CLI:</p>
+<pre><code class="language-bash">aws configure
+</code></pre>
+<pre><code>AWS Access Key ID [None]: *********************
+AWS Secret Key [None]: **************************
+Default region name [None]: us-east-1
+Default output format [None]: json
+</code></pre>
+<h3 id="generate-ssh-keys">🔐 Generate SSH keys</h3>
+<pre><code class="language-bash">ssh-keygen
+ls ~/.ssh
+# output authorized_keys id_ed25519 id_ed25519.pub
+</code></pre>
+<h3 id="install-kops">🛠️ <a href="https://kops.sigs.k8s.io/getting_started/install/#linux">Install Kops</a></h3>
+<pre><code class="language-bash">curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '&quot;' -f 4)/kops-linux-amd64
+
+chmod +x kops
+
+sudo mv kops /usr/local/bin/kops
+</code></pre>
+<h3 id="install-kubectl">🧰 Install kubectl</h3>
+<pre><code class="language-bash">curl -LO &quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# check if installed
+kubectl version --client
+</code></pre>
+<h2 id="create-a-bucket-with-amazon-s3">🪣 Create a bucket with Amazon S3</h2>
+<p>In the AWS Console or CLI:</p>
+<ul>
+<li>Bucket type: <code>General purpose</code></li>
+<li>Bucket name: <code>kopsstate1877</code> &lt;= This needs to be uniqe</li>
+</ul>
+<h2 id="create-the-dns-zone-with-amazon-route-53">🌐 Create the DNS Zone with Amazon <code>Route 53</code></h2>
+<p>Using example domain: alexanderlindholm.net</p>
+<ol>
+<li>
+<p>Go to Route 53 &gt; Hosted Zones</p>
+</li>
+<li>
+<p>Create a Public Hosted Zone:</p>
+</li>
+</ol>
+<p>domain name: <code>kubevpro.alexanderlindholm.net</code></p>
+<p>Type: <code>Public hosted zone</code></p>
+<h3 id="copy-ns-records">🧾 Copy NS Records</h3>
+<ol>
+<li>
+<p>Click into your new hosted zone</p>
+</li>
+<li>
+<p>Under Records, copy the 4 NS records (e.g., ns-xxx.awsdns-xx.com)</p>
+</li>
+</ol>
+<h2 id="update-dns-records-in-namecheap">🔗 Update DNS Records in Namecheap</h2>
+<p>In your domain provider’s dashboard, add:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Host</th>
+<th>Value</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NS Record</td>
+<td>kubevpro</td>
+<td>ns-xxx.awsdns-xx.com</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>NS Record</td>
+<td>kubevpro</td>
+<td>ns-xxxx.awsdns-xx.org</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>NS Record</td>
+<td>kubevpro</td>
+<td>ns-xxx.awsdns-xx.net</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>NS Record</td>
+<td>kubevpro</td>
+<td>ns-xxxx.awsdns-xx.uk</td>
+<td>Automatic</td>
+</tr>
+</tbody>
+</table>
+<p>replace Value column with the 4 NS Type Records from AWS Route 53</p>
+<h2 id="create-your-kubernetes-cluster">🚀 Create Your Kubernetes Cluster</h2>
+<pre><code>kops create cluster \
+  --name=kubevpro.alexanderlindholm.net \
+  --state=s3://kopsstate1877 \
+  --zones=us-east-1a,us-east-1b \
+  --node-count=2 \
+  --node-size=t3.small \
+  --control-plane-size=t3.medium \
+  --dns-zone=kubevpro.alexanderlindholm.net \
+  --node-volume-size=12 \
+  --control-plane-volume-size=12 \
+  --ssh-public-key ~/.ssh/id_ed25519.pub
+</code></pre>
+<p>Apply the configuration:</p>
+<pre><code>kops update cluster --name=kubevpro.alexanderlindholm.net --state=s3://kopsstate1877 --yes --admin
+</code></pre>
+<h3 id="validate-the-cluster">✅ Validate the Cluster</h3>
+<pre><code>kops validate cluster --name=kubevpro.alexanderlindholm.net --state=s3://kopsstate1877
+</code></pre>
+<h3 id="useful-commandskube">🔍 Useful CommandsKube</h3>
+<p>Get kubeconfig:</p>
+<pre><code>cat .kube/config
+# config is created by master node
+</code></pre>
+<p>List nodes:</p>
+<pre><code>kubectl get nodes
+</code></pre>
+<h2 id="delete-the-cluster">🗑️ Delete the Cluster</h2>
+<pre><code>kops delete cluster --name=kubevpro.alexanderlindholm.net --state=s3://kopsstate1877 --yes
+</code></pre>
+<p>Then power off or delete the EC2 instance (Kops)</p>
+<h2 id="troubleshoot">⚠️ Troubleshoot</h2>
+<p>List instance groups:</p>
+<pre><code>kops get ig --name=kubevpro.alexanderlindholm.net --state=s3://kopsstate1877
+
+# Output Example:
+# NAME              ROLE        MACHINETYPE MIN MAX ZONES
+# control-plane-us-east-1a  ControlPlane    t3.medium   1   1   us-east-1a
+# nodes-us-east-1a      Node        t3.small    1   1   us-east-1a
+# nodes-us-east-1b      Node        t3.small    1   1   us-east-1b
+</code></pre>
+<p>Edit an instance group (e.g., if an AMI is invalid):</p>
+<pre><code>kops edit ig nodes-us-east-1a --name=kubevpro.alexanderlindholm.net --state=s3://kopsstate1877
+</code></pre>
+<p>🌐 Verify DNS</p>
+<pre><code>dig +short api.kubevpro.alexanderlindholm.net
+# output example: 
+# 5.34.68.27
+</code></pre>
+<p>You should see this IP listed in Route 53 &gt; Hosted Zones under A or CNAME record for your subdomain.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant", "search.suggest", "content.code.annotate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
