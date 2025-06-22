@@ -124,12 +124,98 @@ To access the TomApp Application use the IP adress of either master or any worke
 curl 200.20.200.200:30001
 ```
 
+### LoadBalancer
+
+- Expose to outside network for production usecases.
+
+![loadbalancer](./img/loadbalancer.png)
+
+#### Example
+
+Pod reference `vproapppod.yaml`:
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vproapp
+  labels:
+    app: vproapp
+spec:
+  containers:
+    - name: appcontainer
+      image: imranvisualpath/freshtomapp:V7
+      ports:
+        - name: vproapp-port
+          containerPort: 8080
+```
+
+NodePort Service ``vproapp-nodebalancer.yml`:
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-service
+spec:
+  ports:
+  - port: 80
+    targetPort: vproapp-port
+    protocol: TCP
+  selector:
+    app: vproapp
+  type: LoadBalancer
+```
+
+To access the TomApp Application use the IP adress of either master or any worker nodes
+
+```
+curl 200.20.200.200
+```
+
 ### ClusterIP
 
 - Internal network communication between pods.
 - Example: Tomcat connecting to MySQL
 
-### LoadBalancer
+![alt text](./img/cluster_ip_2.png)
+![alt text](./img/cluster_ip.png)
+![nodeport and clusterip](./img/nodeport_clusterip.png)
 
-- Expose to outside network for production usecases.
+#### Example
 
+Pod reference `vproapppod.yaml`:
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-pod
+  labels:
+    app: backend
+    project: infinity
+spec:
+  containers:
+    - name: tomcat-container
+      image: tomcat
+      ports:
+        - name: app-port
+          containerPort: 8080
+```
+
+ClusterIP Service`tom-svc-clusterip.yml`:
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 8080
+      port: 8080
+      protocol: TCP
+  selector:
+    app: backend
+```
