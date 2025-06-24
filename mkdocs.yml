@@ -26,3 +26,4 @@ nav:
   - Namespace: namespaces.md
   - Logging: different_logging.md
   - Service: service.md
+  - ReplicaSet: replicaset.md
