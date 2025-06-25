@@ -15,16 +15,21 @@ theme:
     - content.code.annotate # I still dont know what this code line does.
 
 nav:
-  - Home: index.md
-  - History: history.md
-  - Introduction: introduction.md
-  - Setup Kubectl: setup_kubectl.md
-  - Setup Minikube: setup_minikube.md
-  - Setup Kops: setup_kops.md
-  - Objects: objects.md
-  - Kube Config: kube_config.md
-  - Namespace: namespaces.md
+  - Start:
+      - Info: index.md
+      - History: history.md
+      - Introduction: introduction.md
+  - Setup:
+      - Setup Kubectl: setup_kubectl.md
+      - Setup Minikube: setup_minikube.md
+      - Setup Kops: setup_kops.md
+  - Concepts:
+      - CMD & ARGS: commands_arguments.md
+      - Objects: objects.md
+      - Namespace: namespaces.md
+      - Kube Config: kube_config.md
+  - Workloads:
+      - ReplicaSet: replicaset.md
+      - Deployment: deployment.md
+      - Service: service.md
   - Logging: different_logging.md
-  - Service: service.md
-  - ReplicaSet: replicaset.md
-  - Deployment: deployment.md
