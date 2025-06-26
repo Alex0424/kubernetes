@@ -2,7 +2,7 @@
 
 ## 📚 Acknowledgment
 
-- This guide is inspired by the teachings of **Imran Teli**, my technology instructor.
+- This guide is based on lecture materials provided by **Imran Teli**, my technology instructor.
 
 - 🧑‍🏫 **By Alexander Lindholm — Beta Version**
 
