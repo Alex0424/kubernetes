@@ -15,7 +15,7 @@ theme:
     - content.code.annotate # I still dont know what this code line does.
 
 nav:
-  - Start:
+  - Getting Started:
       - Info: index.md
       - History: history.md
       - Introduction: introduction.md
@@ -24,7 +24,7 @@ nav:
       - Setup Minikube: setup_minikube.md
       - Setup Kops: setup_kops.md
   - Concepts:
-      - CMD & ARGS: commands_arguments.md
+      - Commands & Arguments: commands_arguments.md
       - Objects: objects.md
       - Namespace: namespaces.md
       - Kube Config: kube_config.md
@@ -32,4 +32,5 @@ nav:
       - ReplicaSet: replicaset.md
       - Deployment: deployment.md
       - Service: service.md
+      - Volume: volumes.md
   - Logging: different_logging.md
