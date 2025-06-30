@@ -33,4 +33,5 @@ nav:
       - Deployment: deployment.md
       - Service: service.md
       - Volume: volumes.md
+      - Config Map: config_map.md
   - Logging: different_logging.md

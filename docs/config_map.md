@@ -4,9 +4,9 @@ https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as
 
 ## Environment Variables
 
-Pods are disposable and have persistand changes.
+Pods are disposable and do not retain persistent changes.
 
-While running a Pod we can inject environment variables.
+We can inject environment variables into a Pod at runtime.
 
 ### Example
 
@@ -44,7 +44,7 @@ kubectl get cm
 ```
 
 ```shell
-kubectl cm db-config -o yaml
+kubectl get cm db-config -o yaml
 ```
 
 ```shell
@@ -203,4 +203,41 @@ spec:
         path: "game.properties"
       - key: "user-interface.properties"
         path: "user-interface.properties"
+```
+
+```shell
+kubectl get cm
+```
+
+```shell
+kubectl apply -f readcmpod.yaml
+```
+
+```shell
+kubectl get pod
+```
+
+```shell
+kubectl exec --stdin --tty configmap-demo-pod -- /bin/sh
+```
+
+Validate
+```shell
+ls /config/
+```
+
+```shell
+cat /config/game.properties
+```
+
+```shell
+cat /config/user-interface.properties
+```
+
+```shell
+echo $PLAYER_INITIAL_LIVES
+```
+
+```shell
+echo $UI_PROPERTIES_FILE_NAME
 ```
