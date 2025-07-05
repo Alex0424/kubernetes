@@ -34,4 +34,9 @@ nav:
       - Service: service.md
       - Volume: volumes.md
       - Config Map: config_map.md
+      - Secrets: secrets.md
   - Logging: different_logging.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
