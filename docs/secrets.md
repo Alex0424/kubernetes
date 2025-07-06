@@ -2,7 +2,9 @@
 
 A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key.
 
-# Encoding Method
+# Base64 Encoding Method
+
+There is a way to encrypt a secret but thats outside the scope of this docs.
 
 !!! info "Base64 Encoding Example"
 
@@ -65,6 +67,173 @@ metadata:
 type: Opaque
 data:
   my_root_pass: c29tZWNvbXBsZXhwYXNzd29yZA==
-````
+```
 
-## Encryption
+### POD Reading Secret
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-pod
+  labels:
+    app: db
+    project: infinity
+spec:
+  containers:
+    - name: mysql-container
+      image: mysql:5.7
+      envFrom:
+        - secretRef:
+            name: db-secret
+```
+
+### POD Reading Specific Secret Key
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-pod
+  labels:
+    app: db
+    project: infinity
+spec:
+  containers:
+    - name: mysql-container
+      image: mysql:5.7
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: my_root_pass
+```
+
+## Docker config Secrets
+
+Create Docker secret
+
+```yaml
+kubectl create secret docker-registry secret-tiger-docker \
+  --docker-email=tiger@acme.example \
+  --docker-username=tiger \
+  --docker-password=pass1234 \
+  --docker-server=my-registry.example:5000
+```
+
+This command creates a Secret of type kubernetes.io/dockerconfigjson
+
+Retrieve the .data.dockerconfigjson field from that new Secret and decode the data:
+
+```
+kubectl get secret secret-tiger-docker -o jsonpath='{.data.*}' | base64 -d
+```
+
+Output
+
+```
+{
+  "auths": {
+    "my-registry.example:5000": {
+      "username": "tiger",
+      "password": "pass1234",
+      "email": "tiger@acme.example",
+      "auth": "dGlnZXI6cGFzczEyMzQ="
+    }
+  }
+```
+
+Create a Pod that uses your Secret
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-reg
+spec:
+  containers:
+  - name: private-reg-container
+    image: <your-private-image>
+  imagePullSecrets:
+  - name: secret-tiger-docker
+```
+
+## Hands On
+
+```shell
+echo -n "admin" | base64
+
+echo -n "mysecretpass" | base 64
+
+vim mysecret.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+data:
+  username: YWRtaW4=
+  password: bXlzZWNyZXRwYXNz
+type: Opaque
+```
+
+VULNERABILITY: hardcoded-credentials Embedding credentials in source code risks unauthorized access
+
+```shell
+kubectl create -f mysecret.yaml
+# secret/mysecret created
+```
+```shell
+vim readsecret.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+    - name: mycontainer
+      image: redis
+      env:
+        - name: SECRET_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+              optional: false  # same as default; "mysecret" must exist and include a key named "username"
+        - name: SECRET_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
+              optional: false  # same as default; "mysecret" must exist and include a key named "password"
+  restartPolicy: Never
+```
+
+```shell
+kubectl create -f readsecret.yaml
+# secret/mysecret created
+```
+
+```shell
+kubectl get pod
+```
+
+```bash
+# OUTPUT
+NAME                 READY   STATUS    RESTARTS   AGE
+secret-env-pod       1/1     Running   0          24s
+```
+
+```shell
+kubectl exec --stdin --tty secret-env-pod -- /bin/bash
+root@secret-env-pod:data# echo $SECRET_USERNAME
+admin
+root@secret-env-pod:data# echo $SECRET_PASSWORD
+mysecretpass
+```
