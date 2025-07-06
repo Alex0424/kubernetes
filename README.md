@@ -19,7 +19,7 @@ A quick guide to building and deploying documentation with [MkDocs Material](htt
 Install MkDocs with the Material theme:
 
 ```bash
-pip install mkdocs-material
+pip install mkdocs-material mkdocs-mermaid2-plugin
 ```
 
 ## 🧪 2. Run Local Development Server

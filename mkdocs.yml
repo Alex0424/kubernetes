@@ -35,8 +35,25 @@ nav:
       - Volume: volumes.md
       - Config Map: config_map.md
       - Secrets: secrets.md
+      - ingress: ingress.md
   - Logging: different_logging.md
 
+
+plugins:
+  - search
+  - mermaid2
+
 markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
   - admonition
-  - pymdownx.superfences
+  - pymdownx.details
