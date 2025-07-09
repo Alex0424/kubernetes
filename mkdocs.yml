@@ -37,7 +37,7 @@ nav:
       - Secrets: secrets.md
       - ingress: ingress.md
   - Logging: different_logging.md
-  - CheatSheet: cheatsheet.md
+  - Cheat Sheet: cheatsheet.md
 
 
 plugins:
