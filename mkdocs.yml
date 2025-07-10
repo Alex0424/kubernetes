@@ -28,6 +28,10 @@ nav:
       - Objects: objects.md
       - Namespace: namespaces.md
       - Kube Config: kube_config.md
+      - Jobs and Cron Jobs: jobs_cron_jobs.md
+      - DaemonSet: daemonset.md
+      - Taints and Tolerations: taints_tolerations.md
+      - Limits: limits.md
   - Workloads:
       - ReplicaSet: replicaset.md
       - Deployment: deployment.md
