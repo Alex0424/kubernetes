@@ -40,6 +40,10 @@ nav:
       - Config Map: config_map.md
       - Secrets: secrets.md
       - ingress: ingress.md
+  - Helm:
+      - Introduction: helm_introduction.md
+      - Hands On: helm_hands_on.md
+
   - Logging: different_logging.md
   - Cheat Sheet: cheatsheet.md
 
