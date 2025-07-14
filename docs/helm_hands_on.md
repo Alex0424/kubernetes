@@ -108,11 +108,182 @@ Make sure to have all the information before writing the prompt.
 
 ### AmazonQ Prompt Demo
 
-1. Open a new foulder with VSC.
+Open a new foulder with VSC.
 
-2. Prompt AmazonQ this text and wait for AI to build the files.
+Prompt AmazonQ this text and wait for AI to build the files.
+
 ```
-Wordpress setup kubernetes definitions files. Separate files for wordpress app, mysql:8.0, app service, db service, PVC, secret and ingress. PVC should use storage class default, secret file should contain all the db users and db passwords for mysql and wordpress both. Ingress will be nginx with hostname wordpress.alexanderlindholm.net.
+Wordpress setup kubernetes definitions files. Separate files for wordpress app, mysql (needs to be version 8.0), app service, db service, PVC, secret and ingress. PVC should use storage class default, secret file should contain all the db users and db passwords for mysql and wordpress both. Ingress will be nginx with hostname wordpress.alexanderlindholm.net.
 ```
 
-part 2 demo coming soon
+7 files should be created:
+```shell
+.
+├── mysql-deployment.yaml
+├── mysql-pvc.yaml
+├── mysql-service.yaml
+├── wordpress-deployment.yaml
+├── wordpress-ingress.yaml
+├── wordpress-pvc.yaml
+├── wordpress-secret.yaml
+├── wordpress-service.yaml
+
+1 directory, 7 files
+```
+
+Install [Helm](https://helm.sh/docs/intro/install/)
+
+Create Helm chart
+
+```shell
+helm create wp-chart
+```
+
+Additional example/template files should be created in wp-chart directory:
+
+```shell
+.
+├── mysql-deployment.yaml
+├── mysql-pvc.yaml
+├── mysql-service.yaml
+├── wordpress-deployment.yaml
+├── wordpress-ingress.yaml
+├── wordpress-pvc.yaml
+├── wordpress-secret.yaml
+├── wordpress-service.yaml
+└── wp-chart
+    ├── charts
+    ├── Chart.yaml
+    ├── templates
+    │   ├── deployment.yaml
+    │   ├── _helpers.tpl
+    │   ├── hpa.yaml
+    │   ├── ingress.yaml
+    │   ├── NOTES.txt
+    │   ├── serviceaccount.yaml
+    │   ├── service.yaml
+    │   └── tests
+    │       └── test-connection.yaml
+    └── values.yaml
+
+5 directories, 17 files
+```
+
+Delete all `.yaml` files in templates directory:
+
+```shell
+rm wp-chart/templates/*.yaml
+```
+
+Delete the wp-chart directory:
+
+```shell
+rm -rf wp-chart/templates/tests/
+```
+
+Clear all text in `values.yaml`:
+
+```shell
+echo "" > wp-chart/values.yaml
+```
+
+File structure should now look like this:
+```shell
+.
+├── mysql-deployment.yaml
+├── mysql-pvc.yaml
+├── mysql-service.yaml
+├── wordpress-deployment.yaml
+├── wordpress-ingress.yaml
+├── wordpress-pvc.yaml
+├── wordpress-secret.yaml
+├── wordpress-service.yaml
+└── wp-chart
+    ├── charts
+    ├── Chart.yaml
+    ├── templates
+    │   ├── _helpers.tpl
+    │   └── NOTES.txt
+    └── values.yaml
+
+4 directories, 12 files
+```
+
+Copy ai created kubernetes definition files to templates directory:
+
+```shell
+cp ./* ./wp-chart/templates/
+```
+
+File Structure should now look like:
+```shell
+.
+├── mysql-deployment.yaml
+├── mysql-pvc.yaml
+├── mysql-service.yaml
+├── wordpress-deployment.yaml
+├── wordpress-ingress.yaml
+├── wordpress-pvc.yaml
+├── wordpress-secret.yaml
+├── wordpress-service.yaml
+└── wp-chart
+    ├── charts
+    ├── Chart.yaml
+    ├── templates
+    │   ├── _helpers.tpl
+    │   ├── mysql-deployment.yaml
+    │   ├── mysql-pvc.yaml
+    │   ├── mysql-service.yaml
+    │   ├── NOTES.txt
+    │   ├── wordpress-deployment.yaml
+    │   ├── wordpress-ingress.yaml
+    │   ├── wordpress-pvc.yaml
+    │   ├── wordpress-secret.yaml
+    │   └── wordpress-service.yaml
+    └── values.yaml
+
+4 directories, 20 files
+```
+
+in `mysql-deployment.yaml`
+
+replace
+
+```yaml
+metadata:
+  name: wordpress-mysql
+```
+
+to
+
+```yaml
+metadata:
+  name: {{ include "word-chart.fullname" . }}-app
+```
+
+replace
+
+```yaml
+image: mysql:8.0
+```
+
+to
+
+```yaml
+image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+```
+
+Add values in `mysql-deployment.yaml`
+
+```yaml
+mysql:
+  image:
+    repository: mysql
+    tag: 8.0
+```
+
+Then to deploy the app run
+
+```shell
+helm install demo ./wp-chart
+```
