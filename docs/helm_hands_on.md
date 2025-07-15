@@ -287,3 +287,4 @@ Then to deploy the app run
 ```shell
 helm install demo ./wp-chart
 ```
+
