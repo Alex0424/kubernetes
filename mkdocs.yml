@@ -43,6 +43,7 @@ nav:
   - Helm:
       - Introduction: helm_introduction.md
       - Hands On: helm_hands_on.md
+      - Helm with AI: helm_with_ai.md 
 
   - Logging: different_logging.md
   - Cheat Sheet: cheatsheet.md

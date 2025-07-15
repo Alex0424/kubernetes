@@ -45,5 +45,73 @@ helm template wordpress-chart
 if everything looks good launch Kubernetes Chart
 
 ```shell
-helm install wp wordpress-chart -n
+helm install wp wordpress-chart -n wp-ns --create-namespace
+```
+
+Get namespace status
+
+```shell
+helm list -n wp-ns
+```
+
+Get all resources in `wp-ns` namespace
+
+```shell
+kubectl get all -n wp-ns
+```
+
+Check ingress status
+
+```shell
+kubectl get ingress -n wp-ns
+```
+
+Describe ingress
+
+```shell
+kubectl describe ingress -n wp-ns
+```
+
+## Version
+
+If there are new changes to the chart then the version needs to be changed:
+
+
+```shell
+vim Chart.yaml
+```
+
+```conf
+apiVersion: v2
+name: wordpress
+description: A Helm chart for WordPress with MySQL
+type: application
+version: 0.1.1 # <-- Change this version
+appVersion: "1.0.0"
+```
+
+Upgrade the Kubernetes to use latest changes
+
+```shell
+helm upgrade wp wordpress-chart -n wp-ns
+```
+
+Get namespace status
+
+```shell
+helm list -n wp-ns
+```
+
+Get all resources in `wp-ns` namespace
+
+```shell
+kubectl get all -n wp-ns
+```
+
+## Ask AI to Improve the Code
+
+For Example prompt AI this:
+
+```
+Improve helm charts as per developmental best practices.
 ```
