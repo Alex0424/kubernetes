@@ -2,9 +2,7 @@
 
 ## What is [Lens](https://k8slens.dev/) ?
 
-Lens is a central tool used to visualize dashboards for all your Kubernetes clusters.
-
-It is a desktop application that can be downloaded from [here](https://k8slens.dev/).
+Lens is a central tool used to visualize data for all your Kubernetes clusters.
 
 ## Setting up Lens
 
