@@ -24,6 +24,7 @@ nav:
       - Setup Minikube: setup_minikube.md
       - Setup Kops: setup_kops.md
   - Concepts:
+      - Kubernetes architecture diagram: kubernetes_infrastructure_diagram.md
       - Commands & Arguments: commands_arguments.md
       - Objects: objects.md
       - Namespace: namespaces.md
